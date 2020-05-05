@@ -8,10 +8,24 @@
     "server": "nodemon index.js"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "knex": "^0.20.11",
-    "sqlite3": "^4.1.1"
+    "present": "^1.0.0",
+    "sqlite3": "^4.1.1",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
-  }
+    "nodemon": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuabhorrocks/node-api2-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuabhorrocks/node-api2-project/issues"
+  },
+  "homepage": "https://github.com/joshuabhorrocks/node-api2-project#readme"
 }
