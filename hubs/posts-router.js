@@ -94,12 +94,16 @@ router.get("/:id/comments", (req, res) => {
 
 router.delete("/:id", (req, res) => {
     const post_id = req.params.id;
-    const post_contents = req.body
-    console.log(post_contents)
+    let deleted_post = req.body;
+    console.log("deleted_post", deleted_post)
     if (post_id) {
-        Posts.remove(req.params.id)
+        Posts.findById(post_id)
+        .then(deletedPost => {
+            deleted_post = deletedPost;
+        })
+        Posts.remove(post_id)
         .then(total => {
-            res.status(200).json(post_contexts)
+            res.status(200).json(deleted_post)
         })
         .catch(error => {
             console.log(error);
@@ -114,18 +118,34 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    Posts.update(req.params.id, req.body)
-    .then(post => {
-        if (post) {
-            res.status(200).json(req.body)
-        } else {
-            res.status(404).json({message: "The post could not be found"})
+    const post_id = req.params.id;
+    const new_post_id = req.params.id
+    const {title} = req.body.title;
+    const {contents} = req.body.contents;
+    if (!post_id) {
+        res.status(404).json({message: "The post with the specificed ID does not exist."})
+        if (title !== "" || contents !== "") {
+            res.status(400).json({errorMessage: "Please provide title and contents for the post."})
         }
+    }
+    Posts.update(post_id, req.body)
+    .then((new_post_id) => {
+        console.log("Third Id: ", post_id);
+        Posts.findById(post_id)
+        .then(post => {
+            res.status(200).json(post)
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: "Error updating the post",
+            });
+        });
     })
     .catch(error => {
         console.log(error);
         res.status(500).json({
-            message: "Error updating the post",
+            message: "Error with first then",
         });
     });
 });
